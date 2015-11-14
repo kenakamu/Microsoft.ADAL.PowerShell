@@ -35,7 +35,7 @@ This example acquire accesstoken by using RedirectUri from contoso.onmicrosoft.c
 Get-ADALAccessToken -AuthorityName contoso.onmicrosoft.com `
 -ClientId 8f710b23-d3ea-4dd3-8a0e-c5958a6bc16d `
 -ResourceId https://analysis.windows.net/powerbi/api `
--RedirectUri $redirectUri
+-RedirectUri "http://yourredirecturi.local"
 ```
 ####Example 2
 This example acquire accesstoken by using RedirectUri from contoso.onmicrosoft.com Azure Active Directory for PowerBI service. It always prompt you to sign in.
@@ -43,7 +43,7 @@ This example acquire accesstoken by using RedirectUri from contoso.onmicrosoft.c
 Get-ADALAccessToken -AuthorityName contoso.onmicrosoft.com `
 -ClientId 8f710b23-d3ea-4dd3-8a0e-c5958a6bc16d `
 -ResourceId https://analysis.windows.net/powerbi/api `
--RedirectUri $redirectUri `
+-RedirectUri "http://yourredirecturi.local" `
 -ForcePromptSignIn
 ```
 ####Example 3

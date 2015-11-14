@@ -56,19 +56,19 @@ function Get-ADALAccessToken
  Indicate to force prompting for signin in.
 
  .EXAMPLE
- Get-AccessToken -AuthorityName contoso.onmicrosoft.com -ClientId 8f710b23-d3ea-4dd3-8a0e-c5958a6bc16d -ResourceId https://analysis.windows.net/powerbi/api -RedirectUri $redirectUri
+ Get-ADALAccessToken -AuthorityName contoso.onmicrosoft.com -ClientId 8f710b23-d3ea-4dd3-8a0e-c5958a6bc16d -ResourceId https://analysis.windows.net/powerbi/api -RedirectUri $redirectUri
 
  This example acquire accesstoken by using RedirectUri from contoso.onmicrosoft.com Azure Active Directory for PowerBI service. 
  It will only prompt you to sign in for the first time, or when cache is expired.
 
  .EXAMPLE
- Get-AccessToken -AuthorityName contoso.onmicrosoft.com -ClientId 8f710b23-d3ea-4dd3-8a0e-c5958a6bc16d -ResourceId https://analysis.windows.net/powerbi/api -RedirectUri $redirectUri -ForcePromptSignIn
+ Get-ADALAccessToken -AuthorityName contoso.onmicrosoft.com -ClientId 8f710b23-d3ea-4dd3-8a0e-c5958a6bc16d -ResourceId https://analysis.windows.net/powerbi/api -RedirectUri $redirectUri -ForcePromptSignIn
 
  This example acquire accesstoken by using RedirectUri from contoso.onmicrosoft.com Azure Active Directory for PowerBI service.
  It always prompt you to sign in.
 
   .EXAMPLE
- Get-AccessToken -AuthorityName contoso.onmicrosoft.com -ClientId 8f710b23-d3ea-4dd3-8a0e-c5958a6bc16d -ResourceId https://analysis.windows.net/powerbi/api -UserName user1@contoso.onmicrosoft.com -Password password
+ Get-ADALAccessToken -AuthorityName contoso.onmicrosoft.com -ClientId 8f710b23-d3ea-4dd3-8a0e-c5958a6bc16d -ResourceId https://analysis.windows.net/powerbi/api -UserName user1@contoso.onmicrosoft.com -Password password
 
  This example acquire accesstoken by using UserName/Password from contoso.onmicrosoft.com Azure Active Directory for PowerBI service. 
 

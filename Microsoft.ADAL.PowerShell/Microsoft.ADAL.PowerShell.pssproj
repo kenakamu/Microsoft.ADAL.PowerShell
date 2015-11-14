@@ -26,12 +26,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Microsoft.ADAL.PowerShell.psd1" />
     <Compile Include="Microsoft.ADAL.PowerShell.psm1" />
     <Compile Include="Microsoft.IdentityModel.Clients.ActiveDirectory.dll" />
-    <Compile Include="Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

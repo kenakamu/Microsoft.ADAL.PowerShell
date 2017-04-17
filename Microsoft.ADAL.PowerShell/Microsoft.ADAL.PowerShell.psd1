@@ -94,7 +94,7 @@ FileList = @("Microsoft.ADAL.PowerShell.psm1","Microsoft.ADAL.PowerShell.psd1","
 PrivateData = @{
     PSData = @{
         # Tags applied to this module. These help with module discovery in online galleries.
-        Tags = @('ADAL', 'OAuth', 'Azure AD')
+        Tags = @('ADAL', 'OAuth', 'AzureAD')
 
         # A URL to the license for this module.
         # LicenseUri = ''

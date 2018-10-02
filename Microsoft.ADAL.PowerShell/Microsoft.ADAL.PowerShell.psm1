@@ -85,6 +85,12 @@ function Get-ADALAccessToken
         [string]$UserName,
         [parameter(Mandatory=$true, ParameterSetName="UserName")]
         [string]$Password,
+        [parameter(Mandatory=$true, ParameterSetName="ClientSecret")]
+        [string]$ClientSecret,
+        [parameter(Mandatory=$true, ParameterSetName="Certificate")]
+        [System.Security.Cryptography.X509Certificates.X509Certificate]$Certificate,
+        [parameter(Mandatory=$true, ParameterSetName="CertificateThumbprint")]
+        [string]$CertificateThumbprint,
         [parameter(Mandatory=$true, ParameterSetName="RedirectUri")]
         [string]$RedirectUri,
         [parameter(Mandatory=$false, ParameterSetName="RedirectUri")]
@@ -98,28 +104,58 @@ function Get-ADALAccessToken
     
     try
     {
-        if($RedirectUri -ne '')
+        switch ($PsCmdlet.ParameterSetName) 
         {
-            # Create RedirectUri
-            $rUri = New-Object System.Uri -ArgumentList $RedirectUri
-            # Set PromptBehavior
-            if($ForcePromptSignIn)
-            {
-                $promptBehavior = [Microsoft.IdentityModel.Clients.ActiveDirectory.PromptBehavior]::Always
+
+            "RedirectUri" {
+        
+                # Create RedirectUri
+                $rUri = New-Object System.Uri -ArgumentList $RedirectUri
+                # Set PromptBehavior
+                if($ForcePromptSignIn)
+                {
+                    $promptBehavior = [Microsoft.IdentityModel.Clients.ActiveDirectory.PromptBehavior]::Always
+                }
+                else
+                {
+                    $promptBehavior = [Microsoft.IdentityModel.Clients.ActiveDirectory.PromptBehavior]::Auto
+                }
+                # Get AccessToken
+                $authResult = $authContext.AcquireToken($ResourceId, $ClientId, $rUri,$promptBehavior)
             }
-            else
-            {
-                $promptBehavior = [Microsoft.IdentityModel.Clients.ActiveDirectory.PromptBehavior]::Auto
+
+            "UserName" {
+                # Create User/Password Credential
+                $cred = New-Object Microsoft.IdentityModel.Clients.ActiveDirectory.UserCredential($UserName, $Password)
+
+                # Get AccessToken
+                $authResult = $authContext.AcquireToken($ResourceId, $ClientId, $cred)
             }
-            # Get AccessToken
-            $authResult = $authContext.AcquireToken($ResourceId, $ClientId, $rUri,$promptBehavior)
-        }
-        else
-        {
-            # Create Credential
-            $cred = New-Object Microsoft.IdentityModel.Clients.ActiveDirectory.UserCredential($UserName, $Password)
-            # Get AccessToken
-            $authResult = $authContext.AcquireToken($ResourceId, $ClientId, $cred)
+
+            "ClientSecret" {
+                # Create Client Secret Credential
+                $cred = New-Object Microsoft.IdentityModel.Clients.ActiveDirectory.ClientCredential($ClientId, $ClientSecret)
+            
+                # Get AccessToken            
+                $authResult = $authContext.AcquireToken($ResourceId, $cred)
+            }
+
+            "CertificateThumbprint" {
+                # Create Client Certificate Credential
+                $cert = Get-ChildItem cert://currentuser/my/$CertificateThumbprint
+                $cred = New-Object Microsoft.IdentityModel.Clients.ActiveDirectory.ClientAssertionCertificate($ClientId, $cert)
+            
+                # Get AccessToken            
+                $authResult = $authContext.AcquireToken($ResourceId, $cred)
+            }
+
+            "Certificate" {
+                # Create Client Certificate Credential
+                $cred = New-Object Microsoft.IdentityModel.Clients.ActiveDirectory.ClientAssertionCertificate($ClientId, $Certificate)
+            
+                # Get AccessToken            
+                $authResult = $authContext.AcquireToken($ResourceId, $cred)
+            }
         }
     }
     catch [Microsoft.IdentityModel.Clients.ActiveDirectory.AdalException]
